@@ -1,9 +1,19 @@
-"""APIM HTTP client — calls APIM GraphQL endpoints with auto-injected JWT auth."""
+"""APIM HTTP client — calls APIM GraphQL endpoints with auto-injected JWT auth.
+
+Token flow (mirrors the Postman collection):
+  1. TokenManager fetches JWT from POST /token  (cookie or body)
+  2. Optionally exchanges it for an Amadeus token via POST /token/amadeus
+  3. This client injects the token as ``Authorization: <token>`` (NO "Bearer "
+     prefix — the APIM gateway expects the raw JWT value, matching Postman).
+
+On a 401 the client invalidates the cached token and retries once.
+"""
 
 from __future__ import annotations
 
 import json
 import time
+import uuid
 from typing import Any, Optional
 
 import httpx
@@ -35,14 +45,25 @@ def call_apim_graphql(
     url = f"{APIM_BASE_URL}{endpoint_path}"
 
     for attempt in range(2):
+        # ── Step 1: acquire a valid token ────────────────────────────────
         try:
             jwt = token_manager.get_token()
         except RuntimeError as exc:
+            logger.error(f"[APIM] Token acquisition failed for {endpoint_path}: {exc}")
             return {"endpoint": endpoint_path, "url": url, "error": f"Token error: {exc}"}
 
+        if not jwt:
+            logger.error(f"[APIM] Empty token for {endpoint_path} — cannot call API")
+            return {"endpoint": endpoint_path, "url": url, "error": "Token is empty after fetch."}
+
+        # ── Step 2: build headers (matching Postman) ─────────────────────
+        # Postman sends:  Authorization: {{JWT_Token}}   (raw, NO "Bearer " prefix)
+        #                 X-Trace-Id: <unique-id>
+        trace_id = uuid.uuid4().hex[:18]
         headers: dict[str, str] = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {jwt}" if not jwt.startswith("Bearer ") else jwt,
+            "Authorization": jwt,
+            "X-Trace-Id": trace_id,
         }
         if extra_headers:
             headers.update(extra_headers)
@@ -51,6 +72,12 @@ def call_apim_graphql(
         if variables:
             payload["variables"] = variables
 
+        logger.info(
+            f"[APIM] {endpoint_path} attempt {attempt + 1}/2 — "
+            f"token_len={len(jwt)}, trace={trace_id}"
+        )
+
+        # ── Step 3: make the request ────────────────────────────────────
         start = time.perf_counter()
         try:
             with httpx.Client(timeout=API_REQUEST_TIMEOUT) as client:
@@ -59,7 +86,11 @@ def call_apim_graphql(
 
             # On 401, invalidate token and retry once
             if response.status_code == 401 and attempt == 0:
-                logger.warning(f"APIM 401 on {endpoint_path} — refreshing token and retrying")
+                logger.warning(
+                    f"[APIM] 401 on {endpoint_path} (attempt 1) — "
+                    f"invalidating token and retrying. "
+                    f"Body: {response.text[:300]}"
+                )
                 token_manager.invalidate()
                 continue
 
@@ -79,15 +110,18 @@ def call_apim_graphql(
             }
 
             if response.status_code >= 400:
-                logger.error(f"APIM {endpoint_path} returned HTTP {response.status_code} in {duration_ms}ms")
+                logger.error(
+                    f"[APIM] {endpoint_path} returned HTTP {response.status_code} "
+                    f"in {duration_ms}ms — {json.dumps(result.get('errors') or result.get('raw_body', ''))[:300]}"
+                )
             else:
-                logger.info(f"APIM {endpoint_path} → {response.status_code} in {duration_ms}ms")
+                logger.info(f"[APIM] {endpoint_path} → {response.status_code} in {duration_ms}ms")
 
             return result
 
         except httpx.TimeoutException:
             duration_ms = round((time.perf_counter() - start) * 1000, 2)
-            logger.error(f"APIM {endpoint_path} timed out after {API_REQUEST_TIMEOUT}s")
+            logger.error(f"[APIM] {endpoint_path} timed out after {API_REQUEST_TIMEOUT}s")
             return {
                 "endpoint": endpoint_path,
                 "url": url,
@@ -95,7 +129,7 @@ def call_apim_graphql(
                 "duration_ms": duration_ms,
             }
         except httpx.ConnectError:
-            logger.error(f"APIM connection refused: {APIM_BASE_URL}")
+            logger.error(f"[APIM] Connection refused: {APIM_BASE_URL}")
             return {
                 "endpoint": endpoint_path,
                 "url": url,
