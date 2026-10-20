@@ -106,12 +106,12 @@ class TokenManager:
         logger.info(f"[TokenManager] Phase 1 OK — JWT acquired (length={len(token)})")
         return token
 
-    # ── Phase 2 (optional): exchange JWT for Amadeus token ──────────────
+    # ── Phase 2 (REQUIRED): exchange JWT for Amadeus token ─────────────
     def _fetch_amadeus_token(self, jwt: str) -> Optional[str]:
         """POST /token/amadeus with the JWT to get an Amadeus-scoped token.
 
-        Returns the Amadeus token if the endpoint exists and responds,
-        or None if it is not available (the raw JWT will be used instead).
+        The APIM /shop/flights gateway validates the Amadeus token, NOT the
+        Azure AD JWT. If this exchange fails, API calls will return 401.
         """
         url = f"{APIM_BASE_URL}/token/amadeus"
         logger.info(f"[TokenManager] Phase 2 — POST {url}")
@@ -127,9 +127,10 @@ class TokenManager:
             logger.info(f"[TokenManager] /token/amadeus response: status={response.status_code}")
 
             if response.status_code >= 400:
-                logger.warning(
+                logger.error(
                     f"[TokenManager] /token/amadeus returned {response.status_code} "
-                    f"— falling back to raw JWT. Body: {response.text[:200]}"
+                    f"— the Amadeus token exchange is failing server-side. "
+                    f"API calls will get 401. Body: {response.text[:200]}"
                 )
                 return None
 
