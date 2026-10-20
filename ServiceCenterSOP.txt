@@ -1,0 +1,839 @@
+Absolutely — below is a **practical airline call center business process set** for the kinds of agent activities you mentioned, written in an **operations/SOP style** so it can be used for process design, training, or system workflow definition.
+
+***
+
+# Airline Call Center Business Processes
+
+## Sample Processes for Common Agent-Assisted Service Requests
+
+These processes are designed for a **customer service / contact center environment** where the agent handles servicing requests such as **name correction, ancillary sales, payment collection, schedule changes, refunds, and special service requests**.
+
+***
+
+# 1) Name Change / Name Correction Process
+
+### Example: Asking for government-issued ID proof for name correction
+
+## Business Objective
+
+Ensure the passenger name in the booking matches the travel document, while complying with airline fare rules, security requirements, and fraud prevention controls.
+
+## Trigger
+
+Customer contacts the call center requesting:
+
+* Name correction
+* Spelling correction
+* Title update
+* Legal name change
+* First name / last name inversion correction
+
+## Process Flow
+
+### Step 1: Validate customer details
+
+Agent verifies:
+
+* Booking reference / PNR
+* Passenger full name
+* Contact email / phone
+* Security questions as per airline policy
+
+### Step 2: Identify request type
+
+Agent classifies the request into one of the below:
+
+* **Minor correction** – typo within permitted character limit
+* **Major correction** – substantial name change needing approval
+* **Legal name change** – due to marriage/divorce/legal update
+* **Passenger replacement** – usually not permitted; treated separately
+
+### Step 3: Check airline policy and fare rules
+
+Agent validates:
+
+* Whether name correction is allowed
+* Whether the request is within the permitted timeframe before departure
+* Whether the route or airline partner restricts name changes
+* Whether a fee applies
+* Whether a valid named document is attached in the email for name validation
+* Allow name change only if the name in the document matches the name change that is asked in the email
+
+### Step 4: Request supporting document
+
+If policy requires proof, agent asks customer to submit:
+
+* Passport
+* National ID
+* Driving license
+* Marriage certificate / legal affidavit (for legal change)
+* Existing ticket and correct spelling evidence
+
+### Step 5: Validate document received
+
+Agent checks:
+
+* Name on document
+* Date of birth (if applicable)
+* Consistency with booking details
+* Whether change is correction vs. different traveler attempt
+
+### Step 6: Check fee applicability
+
+Agent verifies:
+
+* Name correction fee
+* Fare difference, if any
+* Service charge / call center fee
+* Taxes or reissue charges, if applicable
+
+### Step 7: Trigger payment link (if fee applies)
+
+If payment is required:
+
+* Generate secure payment request
+* Send payment link through approved channel (SMS/email/app)
+* Inform validity time of the link
+* Place booking on hold / queue until payment confirmation if policy allows
+
+### Step 8: Update booking after payment / approval
+
+Once payment and/or approval is complete:
+
+* Correct name in reservation
+* Reissue ticket if required
+* Update SSR/OSI notes
+* Add servicing remark / audit note
+* Send updated itinerary or confirmation email
+
+### Step 9: Close the case
+
+Agent confirms:
+
+* Corrected passenger name
+* Charges collected
+* Updated document sent
+* Any further action required before travel
+
+## Exception Handling
+
+* **No valid proof provided** → advise cannot process request
+* **Departure too close** → escalate to airport/helpdesk/urgent servicing queue
+* **Partner/Interline booking** → refer to host carrier policy
+* **Name change not allowed by fare rule** → explain limitations and alternatives
+
+## Suggested Agent Script
+
+> “To process the name correction, I’ll need a valid government-issued ID or supporting document showing the correct name. Once I verify the details, I’ll check whether any service fee applies and, if needed, I can send you a secure payment link.”
+
+***
+
+# 2) Paid Service Check and Payment Link Trigger Process
+
+### Example: Checking for paid services and collecting payment from customer
+
+## Business Objective
+
+Enable agents to identify chargeable services and collect payment securely without manual cash handling.
+
+## Trigger
+
+Customer requests:
+
+* Extra baggage
+* Seat selection
+* Meal upgrade
+* Priority boarding
+* Lounge access
+* Date change / ticket reissue
+* Name correction fee
+* Penalty / service fee
+
+## Process Flow
+
+### Step 1: Verify booking/customer
+
+Agent verifies booking ownership and customer identity.
+
+### Step 2: Identify requested service
+
+Agent determines what the customer wants:
+
+* Ancillary purchase
+* Post-booking change
+* Waiver check
+* Special handling request
+
+### Step 3: Check eligibility
+
+Agent checks:
+
+* Booking status confirmed/open for servicing
+* Flight not departed
+* Service available on route/carrier
+* Customer not already entitled through fare bundle, status, or disruption policy
+
+### Step 4: Price the service
+
+System/agent retrieves:
+
+* Service fee
+* Tax applicability
+* Currency
+* Fare difference (if reissue/change)
+* Agent service fee if applicable
+
+### Step 5: Explain charges and obtain acceptance
+
+Agent informs customer:
+
+* Total amount
+* Service description
+* Refundability conditions
+* Payment time limit
+
+### Step 6: Trigger payment link
+
+Agent:
+
+* Generates secure payment link through payment gateway
+* Sends link to registered email/mobile
+* Confirms delivery with customer
+* Advises not to share OTP/payment details with anyone
+
+### Step 7: Monitor payment status
+
+Agent/system checks:
+
+* Pending
+* Paid
+* Failed
+* Expired
+
+### Step 8: Fulfill service after successful payment
+
+Based on service type, the agent:
+
+* Adds baggage
+* Assigns seat
+* Reissues ticket
+* Confirms paid meal
+* Updates booking remarks
+* Sends receipt/EMD/confirmation
+
+### Step 9: Follow-up if payment fails
+
+If payment fails:
+
+* Resend link once if allowed
+* Offer alternate approved payment method
+* Cancel pending service request after SLA timeout
+
+## Exception Handling
+
+* **Price changed before payment completion** → requote before processing
+* **Payment success but service not updated** → create back-office queue/case
+* **Partial payment / gateway timeout** → verify with payment team before reprocessing
+* **High fraud risk** → stop and escalate as per fraud SOP
+
+## Suggested Agent Script
+
+> “The requested service is chargeable. The total cost is \[amount]. If you’d like, I can send a secure payment link right away to your registered email or mobile, and once payment is successful, I’ll complete the service for you.”
+
+***
+
+# 3) Schedule Change / Flight Disruption Servicing Process
+
+## Business Objective
+
+Assist customers affected by airline-initiated changes and provide rebooking, refund, or travel alternatives.
+
+## Trigger
+
+* Flight cancellation
+* Significant time change
+* Misconnection due to schedule disruption
+* Aircraft downgrade / service disruption
+
+## Process Flow
+
+1. Verify booking and impacted itinerary
+2. Confirm disruption reason and eligibility
+3. Check protected options / alternate flights
+4. Offer options:
+   * Accept new schedule
+   * Rebook
+   * Refund
+   * Travel voucher (if policy permits)
+5. Capture customer choice
+6. Rebook/refund as per authorization
+7. Update booking remarks and customer notification
+8. Close case with documented disposition
+
+## Key Controls
+
+* Waiver code validation
+* No collection where waiver applies
+* Escalate if protected inventory not available
+
+***
+
+# 4) Refund Request Process
+
+## Business Objective
+
+Assess whether the ticket/service is refundable and initiate correct refund workflow.
+
+## Trigger
+
+Customer requests refund due to:
+
+* Voluntary cancellation
+* Medical issue (copassenger demise)
+* Duplicate booking
+* Schedule disruption
+* Unused ancillary service
+
+## Process Flow
+
+1. Verify customer and booking
+2. Identify refund reason
+3. Check fare conditions and refund policy
+4. Validate supporting documents if exception request:
+   * Medical certificate
+   * Death certificate
+5. Calculate refund / penalty / non-refundable amount
+6. Explain processing timeline
+7. Create refund case / submit workflow
+8. Send acknowledgment and reference number
+9. Track completion and closure
+
+***
+
+# 5) Special Service Request (SSR) Process
+
+## Business Objective
+
+Capture and process passenger assistance needs accurately and on time.
+
+## Trigger
+
+Customer requests:
+
+* Wheelchair
+* Medical assistance
+* Special meal
+* Unaccompanied minor assistance
+* Infant addition
+* Pet in cabin / hold
+* Extra seat
+
+## Process Flow
+
+1. Verify booking
+2. Identify SSR type
+3. Check service eligibility and cutoff time
+4. Collect mandatory details
+5. Check if free or chargeable
+6. Trigger payment if applicable
+7. Add SSR/remarks in booking
+8. Confirm final status to customer
+9. Advise airport reporting requirements if needed
+
+***
+
+# 6) Voluntary Date / Flight Change Process
+
+## Business Objective
+
+Allow customers to modify itinerary based on fare rules and seat availability.
+
+## Trigger
+
+Customer wants to change:
+
+* Date
+* Time
+* Flight number
+* Routing (if allowed)
+
+## Process Flow
+
+1. Verify booking
+2. Check fare rules and reissue eligibility
+3. Search alternate flights
+4. Quote:
+   * Change fee
+   * Fare difference
+   * Additional taxes
+5. Obtain customer acceptance
+6. Trigger payment link if collection required
+7. Reissue ticket
+8. Send revised itinerary
+9. Log transaction details
+
+***
+
+# 7) Ancillary Upsell Process
+
+## Business Objective
+
+Drive additional revenue while improving customer convenience.
+
+## Trigger
+
+Any interaction where the booking is open and ancillary products are available.
+
+## Process Flow
+
+1. Review booking profile and itinerary
+2. Check eligible ancillaries:
+   * Seat
+   * Extra baggage
+   * Meals
+   * Lounge
+   * Priority
+   * Insurance
+3. Present relevant offers
+4. Explain price and benefits
+5. Trigger payment link on acceptance
+6. Confirm service fulfillment
+7. Send receipt/confirmation
+
+***
+
+# 8) Document Verification Process for Sensitive Changes
+
+## Business Objective
+
+Prevent fraud and ensure legal/security compliance for sensitive booking modifications.
+
+## Trigger
+
+Sensitive request such as:
+
+* Name change
+* DOB correction
+* Gender update
+* Passenger identity mismatch
+* Refund to original form of payment exception
+* Travel document correction
+
+## Process Flow
+
+1. Verify customer
+2. Request approved proof documents
+3. Validate document type and clarity
+4. Compare with booking and customer statement
+5. Flag suspicious cases
+6. Approve / reject / escalate
+7. Record document reference and audit notes
+8. Process service if approved
+
+***
+
+# 9) Payment Failure / Retry Process
+
+## Business Objective
+
+Provide controlled handling when payment link fails or expires.
+
+## Trigger
+
+* Customer did not receive link
+* Payment failed
+* Payment timed out
+* Payment completed but status not reflected
+
+## Process Flow
+
+1. Confirm contact details
+2. Check payment gateway status
+3. Reissue payment link if permitted
+4. Reconfirm amount before retry
+5. Wait for successful confirmation
+6. Fulfill service only after confirmed payment
+7. Escalate reconciliation issues to finance/payment team
+
+***
+
+# 10) Escalation Process for Non-Standard Requests
+
+## Business Objective
+
+Ensure requests outside standard policy are routed correctly.
+
+## Trigger
+
+* Waiver request
+* Compassionate exception
+* Medical case
+* Fraud concern
+* VIP/service recovery case
+* Interline restriction
+* System unable to process
+
+## Process Flow
+
+1. Capture full case summary
+2. Attach supporting documents
+3. Tag reason code
+4. Route to back-office / supervisor / fare desk
+5. Inform customer of turnaround time
+6. Monitor pending status
+7. Action outcome and close case
+
+***
+
+1) Winter Sport Equipment (Ski Kit) Purchase Process
+Business Objective
+Enable agents to add winter sports equipment (e.g., ski kit) as a paid ancillary and ensure secure payment collection and customer confirmation.
+Trigger
+Customer requests to purchase winter sport equipment (ski kit) for an existing booking.
+Process Flow
+Step 1: Verify booking/customer
+Agent verifies:
+
+PNR / booking reference
+Passenger details
+Registered email / contact
+
+Step 2: Check eligibility
+Agent validates:
+
+Flight allows sports equipment
+Route/carrier supports ski kit ancillary
+Within allowed check-in time window
+Weight / size restrictions applicable
+
+Step 3: Price the ancillary
+Agent retrieves:
+
+Ski kit charges
+Applicable taxes
+Total payable amount
+
+Step 4: Inform and obtain confirmation
+Agent explains:
+
+Service details (ski equipment allowance)
+Total cost
+Non-refundable / conditions
+
+Step 5: Add ancillary to booking
+Agent:
+
+Adds ski kit to PNR
+Updates SSR / ancillary service section
+Adds audit remarks
+
+Step 6: Trigger payment link
+Agent:
+
+Generates secure payment link
+Sends link via registered email/SMS
+Informs validity of payment link
+
+Step 7: Send payment notification email
+Agent sends email to customer:
+“A payment link has been sent to you. Kindly complete the payment to confirm the ski equipment service for your booking.”
+Step 8: Monitor payment status
+Check:
+
+Payment Pending
+Payment Successful
+Payment Failed/Expired
+
+Step 9: Confirm service after payment
+Once payment is successful:
+
+Confirm ski kit service in booking
+Update remarks / audit logs
+Send confirmation email with receipt
+
+Step 10: Close case
+Agent confirms:
+
+Service successfully added
+Payment received
+Customer notified
+
+
+Exception Handling
+
+Service not available → inform customer and suggest airport purchase if applicable
+Payment expired → resend link (as per policy)
+Payment successful but not updated → raise back-office case
+
+12) Refund Due to Medical Emergency (Co-passenger Deceased)
+Business Objective
+Handle compassionate refund requests in case of a medical emergency or death of a co-passenger, ensuring compliance with airline policy and empathy in customer handling.
+Trigger
+Customer requests refund due to:
+
+Co-passenger passing away before travel
+Medical emergency preventing travel
+
+
+Process Flow
+Step 1: Verify booking/customer
+Agent verifies:
+
+PNR / booking reference
+Passenger details
+Contact email / phone
+Relationship with co-passenger (if applicable)
+
+
+Step 2: Identify request type
+Agent classifies the request:
+
+Medical emergency
+Bereavement (co-passenger death)
+
+
+Step 3: Express empathy and inform process
+Agent communicates clearly:
+
+Acknowledges the situation sensitively
+Explains that supporting documents are required for exception approval
+
+
+Step 4: Request supporting documents
+Agent asks for:
+
+Death certificate (mandatory for bereavement cases)
+Medical certificate (for illness cases)
+Proof of relationship (if required)
+Ticket / booking details
+
+
+Step 5: Validate documents received
+Agent checks:
+
+Authenticity and clarity of documents
+Name match with booking
+Date relevance (before flight departure)
+
+
+Step 6: Check airline refund policy
+Agent verifies:
+
+Eligibility for full/partial waiver
+Applicable fare rules override
+Whether ancillary services are refundable
+Approval requirement (if mandatory)
+
+
+Step 7: Escalate for approval (if required)
+Agent:
+
+Creates a case with full documentation
+Tags as “Compassionate / Medical Exception”
+Routes to back-office / fare desk
+
+
+Step 8: Communicate outcome to customer
+Based on approval:
+
+
+Approved
+
+Inform customer of refund eligibility
+Confirm refund amount (full/partial)
+Provide timeline
+
+
+
+Rejected / Partial
+
+Explain reason clearly
+Offer alternatives (credit shell, date change if applicable)
+
+
+
+
+Step 9: Initiate refund
+Agent:
+
+Processes refund to original form of payment
+Updates booking status
+Adds audit remarks
+Generates case/reference ID
+
+
+Step 10: Confirmation and closure
+Agent confirms:
+
+Refund initiated
+Expected processing timeline
+Case reference shared
+Sends confirmation email
+
+
+Suggested Agent Script
+“I’m very sorry to hear about your situation. I’ll do my best to assist you. Could you please share the required documents, such as the death certificate, so I can request a compassionate review for your refund?”
+
+Exception Handling
+
+No valid document → cannot process exception; follow fare rules
+Urgent travel timeline → prioritize escalation
+Partial travel completed → refund only for unused portion
+Third-party booking → coordinate with issuing agency
+
+# Recommended Standard Statuses in the Process
+
+For system design, each service request can move through statuses like:
+
+* **Initiated**
+* **Customer Verifyd**
+* **Eligibility Checked**
+* **Documents Requested**
+* **Documents Received**
+* **Charges Calculated**
+* **Payment Link Sent**
+* **Payment Pending**
+* **Payment Successful**
+* **Service Fulfilled**
+* **Escalated**
+* **Rejected**
+* **Closed**
+
+***
+
+# Key Business Rules to Include in the Process Design
+
+## For Name Correction
+
+* Minor typo may be free or low cost depending on policy
+* Major name change should require document proof and/or approval
+* Full passenger replacement should usually be blocked
+* No changes after check-in/close to departure unless exception path exists
+
+## For Paid Services
+
+* Services should only be fulfilled after successful payment confirmation
+* Price shown must be valid only for a defined period
+* Payment link must be sent only to verified contact channels
+* Refundability of ancillary should be clearly disclosed
+
+## For Sensitive Requests
+
+* Supporting documents must be mandatory where policy requires
+* All actions should be logged for audit
+* Fraud indicators should trigger supervisor review
+
+***
+
+# Simple End-to-End Example
+
+## Use Case: Name Correction with Payment
+
+### Scenario
+
+Customer says the surname is misspelled and wants correction.
+
+### Agent Process
+
+1. Verify customer
+2. Open booking
+3. Check if ticket is active and eligible
+4. Verify whether it is minor or major correction
+5. Ask customer to share passport/ID proof
+6. Validate requested spelling against document
+7. Check fee applicability
+8. Inform customer of charge
+9. Trigger secure payment link
+10. Wait for successful payment
+11. Update booking and reissue if needed
+12. Send revised itinerary
+13. Add audit remark and close case
+
+***
+
+# Simple End-to-End Example
+
+## Use Case: Extra Baggage Purchase
+
+### Agent Process
+
+1. Verify booking
+2. Check flight and baggage eligibility
+3. Quote extra baggage price
+4. Obtain customer approval
+5. Trigger payment link
+6. Confirm payment received
+7. Add baggage service
+8. Send confirmation and receipt
+
+***
+
+# Best Practice Controls for Airline Call Centers
+
+## Operational Controls
+
+* Mandatory customer authentication before servicing
+* Mandatory fare/policy check before commitment
+* Standardized disposition codes
+* Audit remark for every manual change
+* Clear escalation path for exceptions
+
+## Payment Controls
+
+* Secure payment link only; agent should not collect card details manually unless approved process exists
+* Payment success confirmation must come from system, not customer statement alone
+* Auto-expiry for unpaid requests
+
+## Compliance Controls
+
+* Limit access to personal data
+* Store only required service documents
+* Mask sensitive information in notes/logs
+* Record who performed the change and when
+
+***
+
+# Suggested Process Categories for Your Call Center SOP / System
+
+You can structure your business processes under these headings:
+
+1. **Booking Servicing**
+   * Name correction
+   * Date change
+   * Flight change
+   * Seat change
+
+2. **Ancillary Services**
+   * Extra baggage
+   * Paid meals
+   * Priority services
+   * Lounge access
+
+3. **Customer Validation**
+   * Customer authentication
+   * Document validation
+   * Fraud check
+
+4. **Financial Handling**
+   * Price quote
+   * Payment link trigger
+   * Payment failure handling
+   * Refund processing
+
+5. **Disruption Handling**
+   * Schedule change
+   * Cancellation
+   * Irregular operations
+
+6. **Special Assistance**
+   * Wheelchair
+   * Medical
+   * Infant / UMNR
+   * Pets
+
+7. **Escalations**
+   * Policy exception
+   * Supervisor review
+   * Back-office fulfillment
+
+***

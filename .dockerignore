@@ -1,0 +1,10 @@
+__pycache__/
+**/__pycache__/
+*.pyc
+.env
+*.postman_collection
+*.postman_environment*
+*.json
+*.bat
+*.md
+ServiceCenterSOP.txt
