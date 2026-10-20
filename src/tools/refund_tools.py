@@ -21,7 +21,6 @@ _MONEY = "total { value currencyCode }"
 _REFUND_ELIGIBILITY_QUERY = f"""
 query RetriveOrderRefundEligiblities($input: RefundEligiblitiesInput!) {{
   RetriveOrderRefundEligiblities(input: $input) {{
-    type
     data {{
       orderId
       refundStatus

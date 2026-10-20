@@ -42,7 +42,7 @@ def call_apim_graphql(
 
         headers: dict[str, str] = {
             "Content-Type": "application/json",
-            "Authorization": jwt,
+            "Authorization": f"Bearer {jwt}" if not jwt.startswith("Bearer ") else jwt,
         }
         if extra_headers:
             headers.update(extra_headers)
